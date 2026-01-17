@@ -15,6 +15,9 @@ public class CombatManager : MonoBehaviour
     private float playerAttackTimer;
     private float enemyAttackTimer;
 
+    private bool waitingToClose;
+    private float closeTimer;
+
     public event Action<ContractData> OnCombatStarted;
     public event Action<int> OnPlayerAttack;      
     public event Action<int> OnEnemyAttack;              
@@ -26,7 +29,11 @@ public class CombatManager : MonoBehaviour
 
     [SerializeField] GameObject combatPanel;
 
-    
+    [Header("Animation Settings")]
+    [Tooltip("Delay before closing panel after combat ends (for death animation)")]
+    [SerializeField] float endCombatDelay = 1.5f;
+
+
 
     private void Awake()
     {
@@ -42,6 +49,16 @@ public class CombatManager : MonoBehaviour
 
     private void Update()
     {
+        if (waitingToClose)
+        {
+            closeTimer -= Time.deltaTime;
+            if (closeTimer <= 0f)
+            {
+                CloseCombatPanel();
+            }
+            return;
+        }
+
         if (currentState != CombatState.IN_PROGRESS) return;
 
         float deltaTime = Time.deltaTime;
@@ -176,6 +193,22 @@ public class CombatManager : MonoBehaviour
         TimeManager.Instance.AdvanceSlot();
 
         OnCombatEnded?.Invoke(endState, reward);
+
+        // Delay panel closing for death animation (victory or defeat)
+        if (endState == CombatState.VICTORY || endState == CombatState.DEFEAT)
+        {
+            waitingToClose = true;
+            closeTimer = endCombatDelay;
+        }
+        else
+        {
+            CloseCombatPanel();
+        }
+    }
+
+    private void CloseCombatPanel()
+    {
+        waitingToClose = false;
         combatPanel.SetActive(false);
         Debug.Log("CloseCombat");
         currentContract = null;

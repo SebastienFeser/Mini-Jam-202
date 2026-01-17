@@ -2306,6 +2306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 697014728}
   - component: {fileID: 697014727}
+  - component: {fileID: 697014729}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -2327,6 +2328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   currentState: 0
   combatPanel: {fileID: 1016918933}
+  endCombatDelay: 1.5
 --- !u!4 &697014728
 Transform:
   m_ObjectHideFlags: 0
@@ -2342,6 +2344,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &697014729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697014726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57debedba0e8e24c8c77cd3f286bf57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatAnimator
+  playerVisual: {fileID: 287490630}
+  enemyVisual: {fileID: 105319936}
+  attackTiltAngle: 30
+  attackMoveDistance: 10
+  attackTiltDuration: 0.1
+  attackMoveDuration: 0.1
+  attackReturnMoveDuration: 0.1
+  attackReturnTiltDuration: 0.1
+  deathSpinRotations: 2
+  deathSpinDuration: 0.8
+  deathShrinkDuration: 0.5
+  deathFinalScale: 0
 --- !u!1 &741905847
 GameObject:
   m_ObjectHideFlags: 0
